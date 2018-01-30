@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Game World</title>
+	<meta charset="utf-8" />
+	<!-- css -->
+	<link rel="stylesheet" type="text/css" href="lib/basscss.css">
+	<link rel="stylesheet" type="text/css" href="lib/spectre.css">
+	<!-- js -->
+	<script type="text/javascript" src="lib/axios.js"></script>
+	<script type="text/javascript" src="lib/vue.js"></script>
+</head>
+<body>
+
+	<!-- template -->
+	<div id="app">
+		<!-- 标题 -->
+		<div id="title" class="mb2 h1 bold center" @click="hello(e,feed.title)">{{feed.title}}</div>
+		<div class="status center mb3">
+			{{(new Date(feed.created_at)).toLocaleDateString()}} 238次阅读
+		</div>
+
+		<!-- 内容区 -->
+		<div v-html="feed.detail"></div>
+		
+		<!-- 底部区 -->
+		<p class="bottom mt3 h3">
+			感谢您的阅读！订制或退订请至 <a class="btn btn-link" style="font-size: 14px" href="/detail.html">健康订制中心</a>
+		</p>
+	</div>
+
+
+	<!-- script -->
+	<script type="text/javascript">
+		
+		var api = axios.create({
+		  baseURL: 'http://api.diandianyy.com/health/'
+		});
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				feed: {},
+			},
+			created: function () {
+				api.get('feed?id=eq.1' ).then(function (res) {
+				    app.feed = res.data[0]
+				  })
+				// this.hello('game world')
+			},
+			methods: {
+				hello: function (e, name) {
+			      alert('hello,' + (name||'game'))
+				}
+			} 
+		})
+	</script>
+
+
+	<!-- style -->
+	<style type="text/css">
+		#app {
+			margin: 20px;
+		}
+		img {
+			width: 100%;
+		}
+		#title {
+			font-size: 20px;
+			color: #000;
+		}
+		.status {
+			color: #ccc;
+			font-size: 14px;
+		}
+		.section_title > li {
+			margin-bottom: 10px;
+			font-size: 18px;
+			font-weight: bold;
+			color: #27B38C;
+			list-style-type: none;
+			border-bottom: 3px solid #eee;
+		}
+		h2 {
+			font-size: 18px;
+		}
+		p {
+			font-size: 15px;
+			color: #000;
+			line-height: 2;
+		}
+		.bottom {
+			color: #ccc
+		}
+	</style>
+
+</body>
+</html>
